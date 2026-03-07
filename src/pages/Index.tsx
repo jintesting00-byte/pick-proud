@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, ArrowRight, TrendingUp } from "lucide-react";
+import { Search, ArrowRight, TrendingUp, Zap } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
@@ -9,6 +9,7 @@ import { products, categories } from "@/data/products";
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const topPicks = products.filter((p) => p.badge).slice(0, 4);
+  const trending = products.sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 4);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -75,7 +76,7 @@ const Index = () => {
           {categories.map((cat, i) => (
             <Link
               key={cat.id}
-              to={`/products?category=${cat.id}`}
+              to={`/category/${cat.id}`}
               className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-sm animate-fade-in"
               style={{ animationDelay: `${i * 50}ms` }}
             >
@@ -113,6 +114,55 @@ const Index = () => {
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topPicks.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Banner */}
+      <section className="border-t border-border">
+        <div className="container py-16">
+          <div className="flex flex-col items-center gap-6 rounded-2xl bg-primary px-8 py-14 text-center md:px-16">
+            <Zap className="h-10 w-10 text-primary-foreground" />
+            <h2 className="max-w-xl font-heading text-3xl leading-tight text-primary-foreground md:text-4xl">
+              Never miss a great deal again
+            </h2>
+            <p className="max-w-md font-body text-base text-primary-foreground/80">
+              We track prices and curate the best offers daily. Browse our full catalog to find your next favorite product.
+            </p>
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-2 rounded-lg bg-card px-8 py-3 font-body text-sm font-semibold text-card-foreground transition-opacity hover:opacity-90"
+            >
+              Browse All Deals <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending */}
+      <section className="border-t border-border bg-card">
+        <div className="container py-16">
+          <div className="flex items-end justify-between">
+            <div>
+              <h2 className="font-heading text-2xl text-foreground md:text-3xl">
+                Trending Now
+              </h2>
+              <p className="mt-1.5 font-body text-sm text-muted-foreground">
+                Most popular products this week
+              </p>
+            </div>
+            <Link
+              to="/products"
+              className="hidden items-center gap-1 font-body text-sm font-medium text-primary hover:underline md:flex"
+            >
+              See all <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {trending.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
           </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
 import type { Product } from "@/data/products";
 import AffiliateCTA from "./AffiliateCTA";
@@ -14,7 +15,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       style={{ animationDelay: `${index * 60}ms` }}
     >
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <Link to={`/product/${product.id}`} className="relative aspect-[4/3] overflow-hidden bg-muted">
         <img
           src={product.imageUrl}
           alt={product.title}
@@ -26,7 +27,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             {product.badge}
           </span>
         )}
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="flex flex-1 flex-col gap-3 p-5">
@@ -34,9 +35,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           {product.category}
         </p>
 
-        <h3 className="font-heading text-lg leading-snug text-card-foreground">
-          {product.title}
-        </h3>
+        <Link to={`/product/${product.id}`}>
+          <h3 className="font-heading text-lg leading-snug text-card-foreground hover:text-primary transition-colors">
+            {product.title}
+          </h3>
+        </Link>
 
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {product.description}
